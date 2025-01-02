@@ -1,0 +1,23 @@
+#pong-game {
+    margin: auto;
+    background: black;
+    width: 500px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.paddle {
+    width: 10px;
+    height: 50px;
+    background: white;
+    position: absolute;
+}
+
+.ball {
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+}

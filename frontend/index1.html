@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            background-color: #222;
+            border: 2px solid #fff;
+            margin-bottom: 20px;
+        }
+
+        .paddle {
+            position: absolute;
+            width: 10px;
+            height: 80px;
+            background-color: #fff;
+        }
+
+        #paddle-left {
+            left: 0;
+            top: 160px;
+        }
+
+        #paddle-right {
+            right: 0;
+            top: 160px;
+        }
+
+        #ball {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #fff;
+            border-radius: 50%;
+            left: 392.5px;
+            top: 192.5px;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        #tournament-container {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        #player-inputs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .player-input {
+            margin: 0 10px;
+            text-align: left;
+        }
+
+        .player-input label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .player-input input {
+            padding: 5px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="score">0 : 0</div>
+        <div id="paddle-left" class="paddle"></div>
+        <div id="paddle-right" class="paddle"></div>
+        <div id="ball"></div>
+    </div>
+
+    <div id="tournament-container">
+        <div id="player-inputs">
+            <div class="player-input">
+                <label for="player1">Player 1 Alias:</label>
+                <input type="text" id="player1" placeholder="Enter alias">
+            </div>
+            <div class="player-input">
+                <label for="player2">Player 2 Alias:</label>
+                <input type="text" id="player2" placeholder="Enter alias">
+            </div>
+        </div>
+        <button id="start-tournament-button">Start Tournament</button>
+        <p id="matchmaking-info"></p>
+    </div>
+
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const paddleLeft = document.getElementById('paddle-left');
+        const paddleRight = document.getElementById('paddle-right');
+        const ball = document.getElementById('ball');
+        const scoreDisplay = document.getElementById('score');
+        const startTournamentButton = document.getElementById('start-tournament-button');
+        const player1Input = document.getElementById('player1');
+        const player2Input = document.getElementById('player2');
+        const matchmakingInfo = document.getElementById('matchmaking-info');
+
+        let ballX = 392.5, ballY = 192.5;
+        let ballSpeedX = 2, ballSpeedY = 2;
+        let leftPaddleY = 160, rightPaddleY = 160;
+        let leftScore = 0, rightScore = 0;
+        let isGameRunning = false;
+
+        const paddleSpeed = 5;
+        const paddleHeight = 80;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'w') {
+                leftPaddleY = Math.max(0, leftPaddleY - paddleSpeed);
+            } else if (e.key === 's') {
+                leftPaddleY = Math.min(gameContainer.offsetHeight - paddleHeight, leftPaddleY + paddleSpeed);
+            } else if (e.key === 'ArrowUp') {
+                rightPaddleY = Math.max(0, rightPaddleY - paddleSpeed);
+            } else if (e.key === 'ArrowDown') {
+                rightPaddleY = Math.min(gameContainer.offsetHeight - paddleHeight, rightPaddleY + paddleSpeed);
+            }
+
+            paddleLeft.style.top = `${leftPaddleY}px`;
+            paddleRight.style.top = `${rightPaddleY}px`;
+        });
+
+        function updateBallPosition() {
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Wall collision
+            if (ballY <= 0 || ballY >= gameContainer.offsetHeight - ball.offsetHeight) {
+                ballSpeedY *= -1;
+            }
+
+            // Paddle collision
+            if (
+                (ballX <= paddleLeft.offsetWidth && ballY + ball.offsetHeight > leftPaddleY && ballY < leftPaddleY + paddleHeight) ||
+                (ballX >= gameContainer.offsetWidth - paddleRight.offsetWidth - ball.offsetWidth && ballY + ball.offsetHeight > rightPaddleY && ballY < rightPaddleY + paddleHeight)
+            ) {
+                ballSpeedX *= -1;
+            }
+
+            // Scoring
+            if (ballX <= 0) {
+                rightScore++;
+                resetBall();
+            } else if (ballX >= gameContainer.offsetWidth - ball.offsetWidth) {
+                leftScore++;
+                resetBall();
+            }
+
+            ball.style.left = `${ballX}px`;
+            ball.style.top = `${ballY}px`;
+            scoreDisplay.textContent = `${leftScore} : ${rightScore}`;
+        }
+
+        function resetBall() {
+            ballX = 392.5;
+            ballY = 192.5;
+            ballSpeedX *= -1;
+        }
+
+        function gameLoop() {
+            if (isGameRunning) {
+                updateBallPosition();
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        startTournamentButton.addEventListener('click', () => {
+            const player1 = player1Input.value.trim();
+            const player2 = player2Input.value.trim();
+
+            if (!player1 || !player2) {
+                alert('Both players must enter their aliases.');
+                return;
+            }
+
+            matchmakingInfo.textContent = `Match: ${player1} vs ${player2}`;
+            startTournamentButton.disabled = true;
+            isGameRunning = true;
+            gameLoop();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+section {
+    margin: 20px;
+}
+
+/* Tournament Section */
+#playerList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#playerList li {
+    background-color: #e0e0e0;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Game Section */
+#gameBoard {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 20px auto;
+    background-color: black;
+    border: 2px solid #fff;
+}
+
+.paddle {
+    position: absolute;
+    width: 10px;
+    height: 80px;
+    background-color: white;
+}
+
+#leftPaddle {
+    left: 0;
+    top: 160px;
+}
+
+#rightPaddle {
+    right: 0;
+    top: 160px;
+}
+
+#ball {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    border-radius: 50%;
+    top: 192px;
+    left: 292px;
+}
+
+/* Scoreboard */
+#scoreboard {
+    font-size: 24px;
+    margin: 10px;
+}
