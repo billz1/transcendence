@@ -1,7 +1,7 @@
 const tournamentBracket = document.getElementById("tournament-bracket");
 const players = [];
 
-// Add player
+//to add player
 document.getElementById("tournament-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const playerName = document.getElementById("tournament-player").value;
@@ -9,7 +9,7 @@ document.getElementById("tournament-form").addEventListener("submit", (event) =>
     updateBracket();
 });
 
-// Update bracket
+//
 function updateBracket() {
     tournamentBracket.innerHTML = "";
     players.forEach((player, index) => {
@@ -19,7 +19,7 @@ function updateBracket() {
     });
 }
 
-// Simulate match
+//match simulation
 document.getElementById("tournament-section").addEventListener("dblclick", () => {
     if (players.length < 2) {
         alert("At least 2 players required.");

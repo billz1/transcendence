@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000/api"; // Replace with your backend URL
+const API_BASE_URL = "http://localhost:8000/api"; //backend URL
 
 const api = {
     login: async (username, password) => {

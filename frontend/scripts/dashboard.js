@@ -2,14 +2,14 @@ const statsWins = document.getElementById("stats-wins");
 const statsLosses = document.getElementById("stats-losses");
 const matchHistory = document.getElementById("match-history");
 
-// Load stats
+//load stats
 function loadStats() {
     const stats = JSON.parse(localStorage.getItem("stats")) || { wins: 0, losses: 0 };
     statsWins.textContent = stats.wins;
     statsLosses.textContent = stats.losses;
 }
 
-// Save match result
+//save match result
 function saveMatch(winner) {
     const stats = JSON.parse(localStorage.getItem("stats")) || { wins: 0, losses: 0 };
     if (winner === "player1") stats.wins++;
@@ -20,7 +20,7 @@ function saveMatch(winner) {
     matchHistory.appendChild(historyItem);
 }
 
-// Load history
+//load history
 function loadHistory() {
     matchHistory.innerHTML = "";
     const history = JSON.parse(localStorage.getItem("history")) || [];

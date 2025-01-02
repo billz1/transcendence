@@ -9,7 +9,7 @@ ball.classList.add("ball");
 
 pongGame.append(paddle1, paddle2, ball);
 
-// Initial positions
+//initialize positions
 paddle1.style.left = "10px";
 paddle1.style.top = "125px";
 paddle2.style.right = "10px";
@@ -17,7 +17,7 @@ paddle2.style.top = "125px";
 ball.style.left = "245px";
 ball.style.top = "145px";
 
-// Game state
+//game state
 let ballDirectionX = 2;
 let ballDirectionY = 2;
 let paddle1Y = 125;
@@ -26,7 +26,7 @@ let player1Score = 0;
 let player2Score = 0;
 let isSinglePlayer = true;
 
-// AI logic
+//logic for AI here
 function moveAI() {
     const ballTop = parseInt(ball.style.top);
     const paddleTop = parseInt(paddle2.style.top);
@@ -35,15 +35,15 @@ function moveAI() {
     paddle2.style.top = `${paddle2Y}px`;
 }
 
-// Ball movement
+//ball movement
 function moveBall() {
     const ballX = parseInt(ball.style.left);
     const ballY = parseInt(ball.style.top);
 
-    // Ball collision with walls
+    //collision with walls
     if (ballY <= 0 || ballY >= 290) ballDirectionY *= -1;
 
-    // Ball collision with paddles
+    //collision with pads
     if (
         (ballX <= 20 && ballY >= paddle1Y && ballY <= paddle1Y + 50) ||
         (ballX >= 470 && ballY >= paddle2Y && ballY <= paddle2Y + 50)
@@ -51,7 +51,7 @@ function moveBall() {
         ballDirectionX *= -1;
     }
 
-    // Scoring
+    //scoring
     if (ballX <= 0) {
         player2Score++;
         resetBall();
@@ -60,25 +60,25 @@ function moveBall() {
         resetBall();
     }
 
-    // Move ball
+    //moving ball
     ball.style.left = `${ballX + ballDirectionX}px`;
     ball.style.top = `${ballY + ballDirectionY}px`;
 }
 
-// Reset ball position
+//reset ball position
 function resetBall() {
     ball.style.left = "245px";
     ball.style.top = "145px";
 }
 
-// Game loop
+//game loop
 function gameLoop() {
     moveBall();
     if (isSinglePlayer) moveAI();
     requestAnimationFrame(gameLoop);
 }
 
-// Player controls
+//player controls
 document.addEventListener("keydown", (event) => {
     if (event.key === "w" && paddle1Y > 0) paddle1Y -= 5;
     if (event.key === "s" && paddle1Y < 250) paddle1Y += 5;
@@ -90,7 +90,7 @@ document.addEventListener("keydown", (event) => {
     paddle2.style.top = `${paddle2Y}px`;
 });
 
-// Start game
+//start game
 document.getElementById("game-section").addEventListener("click", () => {
     isSinglePlayer = confirm("Play against AI? Cancel for 2 players.");
     gameLoop();

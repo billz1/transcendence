@@ -10,5 +10,5 @@ chatForm.addEventListener("submit", (event) => {
     document.getElementById("chat-message").value = "";
 
     console.log(`Sending message: ${message}`);
-    // Placeholder for sending message via WebSocket
+   //for sending message via WebSocket
 });
