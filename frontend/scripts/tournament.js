@@ -10,7 +10,8 @@ document.getElementById("tournament-form").addEventListener("submit", (event) =>
 });
 
 //
-function updateBracket() {
+function updateBracket()
+{
     tournamentBracket.innerHTML = "";
     players.forEach((player, index) => {
         const playerDiv = document.createElement("div");
@@ -21,7 +22,8 @@ function updateBracket() {
 
 //match simulation
 document.getElementById("tournament-section").addEventListener("dblclick", () => {
-    if (players.length < 2) {
+    if (players.length < 2)
+    {
         alert("At least 2 players required.");
         return;
     }

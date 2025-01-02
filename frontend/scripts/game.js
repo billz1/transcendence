@@ -52,10 +52,13 @@ function moveBall() {
     }
 
     //scoring
-    if (ballX <= 0) {
+    if (ballX <= 0)
+    {
         player2Score++;
         resetBall();
-    } else if (ballX >= 490) {
+    } 
+    else if (ballX >= 490) 
+    {
         player1Score++;
         resetBall();
     }
