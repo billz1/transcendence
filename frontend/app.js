@@ -1,16 +1,15 @@
-// Main Application Logic
+//main app logic
 const app = document.getElementById('app');
 
-// Global State
+//global state
 let players = [];
 let currentMatchIndex = 0;
 
-// Utility to render pages
+
 function renderPage(content) {
   app.innerHTML = content;
 }
 
-// Landing Page
 function showLandingPage() {
   renderPage(`
     <h1>Welcome to the Pong Contest</h1>
@@ -19,7 +18,6 @@ function showLandingPage() {
   `);
 }
 
-// Game Lobby
 function showGameLobby() {
   renderPage(`
     <h1>Game Lobby</h1>
@@ -36,7 +34,7 @@ function showGameLobby() {
   const joinForm = document.getElementById('joinForm');
   const playerList = document.getElementById('playerList');
 
-  // Update player list
+  
   function updatePlayerList() {
     playerList.innerHTML = `
       <h3>Players in the tournament:</h3>
@@ -61,7 +59,6 @@ function showGameLobby() {
   updatePlayerList();
 }
 
-// Tournament View
 function startTournament() {
   if (players.length < 2) {
     alert('At least 2 players are required to start a tournament!');
@@ -100,7 +97,7 @@ function resetTournament() {
   showGameLobby();
 }
 
-// Pong Game Screen
+//pong game Screen
 function startGame(player1, player2) {
   renderPage(`
     <h1>Pong Game</h1>
@@ -113,13 +110,13 @@ function startGame(player1, player2) {
   startPongGame();
 }
 
-// End Game and Advance Tournament
+// end and advance tournament
 function endGame() {
   currentMatchIndex++;
   showTournamentView();
 }
 
-// Leaderboard (Placeholder for Backend Integration)
+// leaderboard (placeholder because it requires the backend)
 function showLeaderboard() {
   renderPage(`
     <h1>Leaderboard</h1>
@@ -128,7 +125,7 @@ function showLeaderboard() {
   `);
 }
 
-// Initialize the app
+//initialize app
 showLandingPage();
 
 

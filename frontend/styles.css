@@ -1,4 +1,4 @@
-/* General Styles */
+/* general */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -19,7 +19,7 @@ body {
     text-align: center;
   }
   
-  /* Buttons */
+  /*buttons */
   button {
     background: #61dafb;
     color: #20232a;
@@ -36,7 +36,7 @@ body {
     color: #fff;
   }
   
-  /* Game Canvas */
+  /*game canvas */
   canvas {
     background: #000;
     display: block;
