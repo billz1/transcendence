@@ -1,16 +1,18 @@
-//main app logic
+// Main Application Logic
 const app = document.getElementById('app');
 
-//global state
+// Global State
 let players = [];
 let currentMatchIndex = 0;
 
-
+// Utility to render pages
 function renderPage(content) {
   app.innerHTML = content;
 }
 
+// Landing Page
 function showLandingPage() {
+  console.log("Landing page is being shown"); // Debugging
   renderPage(`
     <h1>Welcome to the Pong Contest</h1>
     <button onclick="showGameLobby()">Join Tournament</button>
@@ -18,7 +20,9 @@ function showLandingPage() {
   `);
 }
 
+// Game Lobby
 function showGameLobby() {
+  console.log("Game lobby is being shown"); // Debugging
   renderPage(`
     <h1>Game Lobby</h1>
     <form id="joinForm">
@@ -34,7 +38,7 @@ function showGameLobby() {
   const joinForm = document.getElementById('joinForm');
   const playerList = document.getElementById('playerList');
 
-  
+  // Update player list
   function updatePlayerList() {
     playerList.innerHTML = `
       <h3>Players in the tournament:</h3>
@@ -59,14 +63,37 @@ function showGameLobby() {
   updatePlayerList();
 }
 
+// Start the game with AI or two players
+function startGame(player1, player2 = "AI") {
+  console.log(`Starting game: ${player1} vs ${player2}`); // Debugging
+  renderPage(`
+    <h1>Pong Game</h1>
+    <canvas id="pongCanvas" width="800" height="400"></canvas>
+    <p>Players: <strong>${player1}</strong> (Left) vs <strong>${player2}</strong> (Right)</p>
+    <button onclick="endGame()">End Game</button>
+    <button onclick="showTournamentView()">Back to Tournament</button>
+  `);
+
+  const isAIEnabled = player2 === "AI";
+  startPongGame(isAIEnabled);
+}
+
+// Tournament Functions
 function startTournament() {
-  if (players.length < 2) {
-    alert('At least 2 players are required to start a tournament!');
+  if (players.length === 0) {
+    alert('At least 1 player is required to start the tournament!');
     return;
   }
 
-  currentMatchIndex = 0;
-  showTournamentView();
+  if (players.length === 1) {
+    // Single player, start a match with AI
+    const player1 = players[0];
+    startGame(player1, "AI");
+  } else {
+    // Two or more players, proceed with tournament
+    currentMatchIndex = 0;
+    showTournamentView();
+  }
 }
 
 function showTournamentView() {
@@ -97,26 +124,12 @@ function resetTournament() {
   showGameLobby();
 }
 
-//pong game Screen
-function startGame(player1, player2) {
-  renderPage(`
-    <h1>Pong Game</h1>
-    <canvas id="pongCanvas" width="800" height="400"></canvas>
-    <p>Players: <strong>${player1}</strong> (Left) vs <strong>${player2}</strong> (Right)</p>
-    <button onclick="endGame()">End Game</button>
-    <button onclick="showTournamentView()">Back to Tournament</button>
-  `);
-
-  startPongGame();
-}
-
-// end and advance tournament
 function endGame() {
   currentMatchIndex++;
   showTournamentView();
 }
 
-// leaderboard (placeholder because it requires the backend)
+// Leaderboard (Placeholder for Backend Integration)
 function showLeaderboard() {
   renderPage(`
     <h1>Leaderboard</h1>
@@ -125,7 +138,8 @@ function showLeaderboard() {
   `);
 }
 
-//initialize app
+// Initialize the app
+console.log("App loaded"); // Debugging
 showLandingPage();
 
 
