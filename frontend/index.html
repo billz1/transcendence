@@ -1,118 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Tournament</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong Contest</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Pong</h1>
-
-    <div id="tournament">
-        <div id="player-aliases">
-            <input type="text" id="alias-input" placeholder="Enter alias" />
-            <button id="add-player">Add Player</button>
-        </div>
-        <div id="current-match">Waiting for players...</div>
-        <button id="start-tournament" disabled>Start Tournament</button>
-    </div>
-
-    <div id="game-container">
-        <div id="score">0 : 0</div>
-        <div id="paddle-left" class="paddle"></div>
-        <div id="paddle-right" class="paddle"></div>
-        <div id="ball"></div>
-    </div>
-    <button id="start-button" disabled>Start Game</button>
-
-    <script src="tournament.js"></script>
-    <script src="game.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/game.css">
-</head>
-<body>
-    <div id="app">
-        <!-- Nav section -->
-        <nav>
-            <button id="nav-login">Login</button>
-            <button id="nav-register">Register</button>
-            <button id="nav-dashboard">Dashboard</button>
-            <button id="nav-game">Play Pong</button>
-            <button id="nav-tournament">Tournament</button>
-            <button id="nav-chat">Chat</button>
-        </nav>
-
-        <!-- sections -->
-        <section id="login-section" class="hidden">
-            <h2>Login</h2>
-            <form id="login-form">
-                <input type="text" id="login-username" placeholder="Username" required>
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-        </section>
-
-        <section id="register-section" class="hidden">
-            <h2>Register</h2>
-            <form id="register-form">
-                <input type="text" id="register-username" placeholder="Username" required>
-                <input type="password" id="register-password" placeholder="Password" required>
-                <input type="file" id="register-avatar" accept="image/*">
-                <button type="submit">Register</button>
-            </form>
-        </section>
-
-        <section id="dashboard-section" class="hidden">
-            <h2>Dashboard</h2>
-            <div id="stats">
-                <h3>Stats</h3>
-                <p>Wins: <span id="stats-wins">0</span></p>
-                <p>Losses: <span id="stats-losses">0</span></p>
-            </div>
-            <div id="history">
-                <h3>Match History</h3>
-                <ul id="match-history"></ul>
-            </div>
-        </section>
-
-        <section id="game-section" class="hidden">
-            <h2>Play Pong</h2>
-            <div id="pong-game"></div>
-        </section>
-
-        <section id="tournament-section" class="hidden">
-            <h2>Tournament</h2>
-            <form id="tournament-form">
-                <input type="text" id="tournament-player" placeholder="Player Name" required>
-                <button type="submit">Join Tournament</button>
-            </form>
-            <div id="tournament-bracket"></div>
-        </section>
-
-        <section id="chat-section" class="hidden">
-            <h2>Chat</h2>
-            <div id="chat-window"></div>
-            <form id="chat-form">
-                <input type="text" id="chat-message" placeholder="Type a message..." required>
-                <button type="submit">Send</button>
-            </form>
-        </section>
-    </div>
-
-    <script src="scripts/main.js"></script>
-    <script src="scripts/auth.js"></script>
-    <script src="scripts/game.js"></script>
-    <script src="scripts/tournament.js"></script>
-    <script src="scripts/chat.js"></script>
-    <script src="scripts/api.js"></script>
+  <div id="app">
+    <!-- Dynamic content will be rendered here -->
+  </div>
+  <script src="pong.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
