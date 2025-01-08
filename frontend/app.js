@@ -12,7 +12,7 @@ function renderPage(content) {
 
 //landing page
 function showLandingPage() {
-  console.log("Landing page is being shown"); // Debugging
+  console.log("Landing page is being shown"); //ebugging
   renderPage(`
     <h1>Welcome to the Pong Contest</h1>
     <button onclick="showGameLobby()">Join Tournament</button>
@@ -23,7 +23,7 @@ function showLandingPage() {
 
 //game lobby
 function showGameLobby() {
-  console.log("Game lobby is being shown"); // Debugging
+  console.log("Game lobby is being shown"); //debugging
   renderPage(`
     <h1>Game Lobby</h1>
     <form id="joinForm">
@@ -39,7 +39,7 @@ function showGameLobby() {
   const joinForm = document.getElementById('joinForm');
   const playerList = document.getElementById('playerList');
 
-  // Update player list
+  //update player list
   function updatePlayerList() {
     playerList.innerHTML = `
       <h3>Players in the tournament:</h3>
