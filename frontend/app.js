@@ -1,27 +1,91 @@
-//main app logic
 const app = document.getElementById('app');
 
-//global state
 let players = [];
 let currentMatchIndex = 0;
 
-//to render pages
 function renderPage(content) {
   app.innerHTML = content;
 }
 
-//landing page
+let currentUser = null;
+
+//fetch logged in user nnfo
+async function fetchUser() {
+  try {
+    const response = await fetch('/auth/me/', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      currentUser = await response.json();
+    } else {
+      currentUser = null;
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    currentUser = null;
+  }
+  updateNavbar();
+}
+
+const API_BASE_URL = 'http://127.0.0.1:8000';
+
+function loginWith42() {
+  window.location.href = `${API_BASE_URL}/auth/login/`; // Dynamically build the URL
+}
+
+
+
 function showLandingPage() {
-  console.log("Landing page is being shown"); //ebugging
   renderPage(`
     <h1>Welcome to the Pong Contest</h1>
+    <div id="userSection"></div> <!-- User Section -->
     <button onclick="showGameLobby()">Join Tournament</button>
     <button onclick="showLeaderboard()">View Leaderboard</button>
     <button onclick="showStatsPage()">View Stats</button>
+    <button onclick="window.location.href='http://localhost:8000/auth/login/'">Login with 42</button>
+
   `);
+  fetchUser();
 }
 
-//game lobby
+
+function updateNavbar() {
+  const navSection = document.getElementById('userSection');
+  if (currentUser) {
+    //show logged-in user info (not yet working fully)
+    navSection.innerHTML = `
+      <div>
+        <img src="${currentUser.avatar || 'default-avatar.png'}" alt="Avatar" style="width:40px; height:40px; border-radius:50%; margin-right:10px;">
+        <strong>${currentUser.username}</strong>
+        <button onclick="logout()">Logout</button>
+      </div>
+    `;
+  } else {
+    
+    navSection.innerHTML = `
+      <button onclick="loginWith42()">Login with 42</button>
+    `;
+  }
+}
+
+async function logout() {
+  try {
+    const response = await fetch('/auth/logout/', {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      currentUser = null;
+      updateNavbar();
+    } else {
+      alert('Failed to log out.');
+    }
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+}
+
 function showGameLobby() {
   console.log("Game lobby is being shown"); //debugging
   renderPage(`
@@ -39,7 +103,6 @@ function showGameLobby() {
   const joinForm = document.getElementById('joinForm');
   const playerList = document.getElementById('playerList');
 
-  //update player list
   function updatePlayerList() {
     playerList.innerHTML = `
       <h3>Players in the tournament:</h3>
@@ -68,7 +131,7 @@ function showGameLobby() {
 function startGame(player1, player2 = "AI") {
   console.log(`Starting game: ${player1} vs ${player2}`); // Debugging
   renderPage(`
-    <h1>Pong Game</h1>
+    <h1>Pong Arena</h1>
     <canvas id="pongCanvas" width="800" height="400"></canvas>
     <p>Players: <strong>${player1}</strong> (Left) vs <strong>${player2}</strong> (Right)</p>
     <button onclick="endGame()">End Game</button>
@@ -79,18 +142,17 @@ function startGame(player1, player2 = "AI") {
   startPongGame(isAIEnabled);
 }
 
-//tournament functions
 function startTournament() {
   if (players.length === 0) {
     alert('At least 1 player is required to start the tournament!');
     return;
   }
-  //single player, start a match with AI
+  //make single player start a match with AI
   if (players.length === 1) {
     const player1 = players[0];
     startGame(player1, "AI");
   } else {
-    //two or more players, proceed with tournament
+    //two or more players
     currentMatchIndex = 0;
     showTournamentView();
   }
@@ -139,8 +201,8 @@ function showLeaderboard() {
   `);
 }
 
-//initialize app
-console.log("App loaded"); //only for debugging :)
+//initialize app (debugging)
+console.log("App loaded");
 showLandingPage();
 
 //mock webSocket to be replaced with backend websocket -- simulates real time chat using a shared message array and subscriber callbacks
@@ -155,7 +217,7 @@ const mockWebSocket = (() => {
     },
     subscribe: (callback) => {
       subscribers.push(callback);
-      callback(messages); //for initial messages
+      callback(messages);
     },
   };
 })();
@@ -177,7 +239,6 @@ function renderChatbox() {
   mockWebSocket.subscribe(updateChatMessages);
 }
 
-//update Chat Messages
 function updateChatMessages(messages) {
   const chatMessagesDiv = document.getElementById('chatMessages');
   if (chatMessagesDiv) {
@@ -192,12 +253,11 @@ function sendMessage() {
   const chatInput = document.getElementById('chatInput');
   if (chatInput && chatInput.value.trim() !== '') {
     const message = `Player: ${chatInput.value.trim()}`;
-    mockWebSocket.send(message); //simulate sending the message to a server
+    mockWebSocket.send(message);
     chatInput.value = '';
   }
 }
 
-//initialize the Chatbox when the app loads
 renderChatbox();
 
 //note: the stats are mock ups for now because we dont have a backend yet, i'm using temp in-memory storage
@@ -270,7 +330,6 @@ function showStatsPage() {
   renderGameStatsChart();
 }
 
-//render game stats chart
 function renderGameStatsChart() {
   const ctx = document.getElementById('gameStatsChart').getContext('2d');
   const durations = gameStats.map((stat) => stat.duration);
@@ -335,7 +394,7 @@ function endGame() {
   const duration = Math.floor(Math.random() * 200) + 50;
   const avgBallSpeed = Math.random() * 10 + 5;
 
-  //determine winner and loser (mocked for now so player always wins lol)
+  //determine winner and loser (mocked for now so player always wins lol but only for the stats)
   const winner = players[currentMatchIndex];
   const loser = players[currentMatchIndex + 1] || "AI";
 
