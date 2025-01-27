@@ -23,4 +23,4 @@ class CustomPasswordValidator:
 			raise ValidationError('password-special-error')
 
 	def get_help_text(self):
-		return 'Your password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.'
+		return 'Your password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character!'

@@ -1,15 +1,5 @@
 // All close buttons were removed. The modal can be closed by clicking outside of it.
-// Here is the button div just in case though:
 
-// with an icon
-{/* <div class="col-12 d-flex justify-content-center mt-4 mb-3">
-	<button type="button" class="btn btn-lg text-white text-center d-flex align-items-center justify-content-center p-3" data-bs-dismiss="modal" aria-p="Close"><img src="static/assets/UI/icons/cross.svg" alt="close" id="close-button" width="16"></button>
-</div> */}
-
-// with text
-{/* <div class="col-12 d-flex justify-content-center mt-1">
-	<button type="button" class="btn btn-lg text-white" data-bs-dismiss="modal" aria-p="Close">Close</button>
-</div> */}
 
 import { updateTexts } from "../utils/languages.js";
 import { updateTextForElem, getText } from "../utils/languages.js";

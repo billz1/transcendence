@@ -81,7 +81,7 @@ export function ${view_name} () {
     // testFunction();
 }
 
-// --------------------------- Event Listener Functions ---------------------------
+//Event Listener Functions
 // (Only Event Listener that are attached to the document.
 // Those attached to elements in the view are gonna be removed
 // when the view changes anyway)
@@ -91,7 +91,7 @@ export function ${view_name} () {
 
 // }
 
-// --------------------------- Export Event Listeners Object ---------------------------
+//Export Event Listeners Object
 // export const eventListeners = {
 //  "keydown": printKey
 // }

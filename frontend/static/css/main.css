@@ -8,8 +8,8 @@
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
-  --bs-indigo: #10bdf2;
-  --bs-purple: #42c173;
+  --bs-indigo: #6610f2;
+  --bs-purple: #6f42c1;
   --bs-pink: #d63384;
   --bs-red: #dc3545;
   --bs-orange: #fd7e14;
@@ -12061,7 +12061,7 @@ label {
   background: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
-  /* border-radius: 25px; */
+  border-radius: 25px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   animation: fadeIn 0.5s ease-out;
 }
@@ -12097,7 +12097,7 @@ label {
 }
 
 .squarer-glass {
-  /* border-radius: 15px; */
+  border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(10px);
@@ -12358,7 +12358,7 @@ button:focus,
   -webkit-appearance: none;
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  /* border-radius: 50%; */
+  border-radius: 50%;
   width: 1.25rem;
   height: 1.25rem;
   position: relative;

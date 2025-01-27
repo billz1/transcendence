@@ -27,7 +27,7 @@ class CookieTokenAuthentication(TokenAuthentication):
             raise AuthenticationFailed('No jwt cookie found')
         return super().authenticate_credentials(token)
 
-### AUTHENTICATION ###
+#AUTHENTICATION
 
 class login(views.APIView):
     def post(self, request):
@@ -65,7 +65,7 @@ class logout(views.APIView):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
-### USER PROFILE ###
+#USER PROFILE
 
 class profile(views.APIView):
     authentication_classes = [CookieTokenAuthentication]
@@ -98,7 +98,7 @@ class UserAvatar(views.APIView):
         else:
             return Response({"error": "No profile photo found"}, status=status.HTTP_404_NOT_FOUND)
 
-### FRIENDS ###
+#FRIENDS
 
 class AddFriend(views.APIView):
     authentication_classes = [CookieTokenAuthentication]
@@ -161,7 +161,7 @@ class UsersList(views.APIView):
         except Exception as e:
             raise APIException(str(e))
 
-### PACMAN ###
+#PACMAN
 
 class RecordPacmanMatch(views.APIView):
     authentication_classes = [CookieTokenAuthentication]
@@ -213,7 +213,7 @@ class UpdateMaxEndlessScore(views.APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-### PONG ###
+#PONG
 
 class UserPongStats(views.APIView):
     authentication_classes = [CookieTokenAuthentication]
@@ -281,7 +281,7 @@ class UserAIPongMatchHistory(ListAPIView):
         user = self.request.user
         return AIPongMatch.objects.filter(user=user).order_by('-match_date')
 
-### PONG TOURNAMENT ###
+#PONG TOURNAMENT
 
 class RecordPongTournament(views.APIView):
     authentication_classes = [CookieTokenAuthentication]

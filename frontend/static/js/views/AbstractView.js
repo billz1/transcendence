@@ -10,7 +10,7 @@ export default class {
 	// The following methods will be overridden by the child classes
 	
 	// Returns the HTML content of the view
-	// This method is asynchronous because it may need to fetch data from an API
+	// 
     async getHtml() {
         return "";
     }

@@ -5,7 +5,7 @@ import { editProfile } from "../scripts/editProfile.js";
 export default class extends AbstractView {
     constructor() {
         super();
-        this.setTitle("dit profile");
+        this.setTitle("edit profile");
     }
 
     async getHtml() {

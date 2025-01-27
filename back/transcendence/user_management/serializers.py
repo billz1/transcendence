@@ -5,7 +5,7 @@ from django.core.validators import validate_email as validate_email_func
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 
-### USER MANAGEMENT ###
+#USER MANAGEMENT
 
 class CustomUserSerializer(serializers.ModelSerializer):
 	profile_picture_url = serializers.SerializerMethodField()
@@ -56,7 +56,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 		instance.save()
 		return instance
 
-### PACMAN ###
+#PACMAN
 
 class PacmanMatchSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -76,7 +76,7 @@ class UserPacmanStatsSerializer(serializers.ModelSerializer):
 		model = CustomUser
 		fields = ('total_pacman_matches', 'total_pacman_time', 'max_endless_score')
 
-### PONG ###
+#PONG
 
 class AIPongMatchSerializer(serializers.ModelSerializer):
 	class Meta:

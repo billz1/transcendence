@@ -575,7 +575,7 @@ export class PongMenu {
 		updateTexts();
 	}
 
-	//#region EVENT LISTENERS HANDLERS
+	// EVENT LISTENERS HANDLERS
 
 	selectGamemode(event, gamemode) {
 		updateTextForElem(this.toastBody, "chosen-gamemode");

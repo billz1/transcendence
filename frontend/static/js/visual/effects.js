@@ -1,10 +1,10 @@
-// ------------------------------- FRONTEND EYE CANDIES -------------------------------
+// Frontend effects
 // Changing letter animation
 
 export const animateLetters = () => {
     const text = document.querySelector("[animated-letters]");
     if (!text) return;
-	const letters = "Baddass 42 Prague students";
+	const letters = "abcdefghijklmnopqrstuvwxyz";
 	const initialText = text.innerText;
 
     let interval = null;

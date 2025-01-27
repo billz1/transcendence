@@ -1,5 +1,5 @@
-// ------------------------------- IMPORT VIEWS -------------------------------
-// A view is a class containing the HTML and JS of a page
+//IMPORT VIEWS 
+// note: a view is a class containing the HTML and JS of a page basically the mixing pot
 import Home from "./views/Home.js";
 import Pong from "./views/Pong.js";
 import Pong3d from "./views/Pong3d.js";
@@ -17,15 +17,15 @@ import Friends from "./views/Friends.js";
 import PongStatistics from "./views/PongStatistics.js";
 import PacmanStatistics from "./views/PacmanStatistics.js";
 
-// ------------------------------- IMPORT VISUAL EFFECTS -------------------------------
+//IMPORT VISUAL EFFECTS 
 import { animateLetters, initLoadTransition, initInteractiveBubble } from './visual/effects.js'
 
-// ------------------------------- IMPORT UTILS ---------------------------------
+//IMPORT UTILS
 import { updateTexts } from "./utils/languages.js";
 import { applySettings } from "./utils/applySettings.js";
 import { attachEventListenersToLinks } from "./utils/utils.js";
 
-// ------------------------------- CONFIGURE GLOBAL VARIABLES -------------------------------
+//CONFIGURE GLOBAL VARIABLES
 export const BASE_URL = "https://localhost";
 export const BIG_TEXT = '20px';
 export const DEFAULT_TEXT = '16px';
@@ -36,7 +36,7 @@ export const ids = {};
 // Store the current view
 let view = null;
 
-// ------------------------------- THE APP STARTS HERE -------------------------------
+//THE APP STARTS HERE
 // When the DOM is loaded, call initialization functions and the router function
 document.addEventListener("DOMContentLoaded", async () => {
 	// Initialization
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	router();
 });
 
-// ------------------------------- ROUTING -------------------------------
+//ROUTING
 // Array that contains all routes where each route has a path and a view
 const routes = [
 	{ path: "/", view: Home },
@@ -110,7 +110,7 @@ const router = async () => {
 	animateLetters();
 };
 
-// ------------------------------- NAVIGATION -------------------------------
+//NAVIGATION
 // Navigate to a new view
 export const navigateTo = url => {
 	// Change the URL to the new URL and add a state to the history stack

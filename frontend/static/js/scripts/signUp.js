@@ -70,7 +70,7 @@ export function signUp () {
 				const containerLogin = document.querySelector('.container-login');
 				containerLogin.innerHTML = `
 					<div class="success text-center">
-						<h1 id="success-message" class="text-white" data-translate"sign-up-success">Sign up successful!</h1>
+						<h1 id="success-message" class="text-white" data-translate"sign-up-success">Sign up successful, welcome to gameworld!</h1>
 						<div class="d-flex align-items-center justify-content-center p-5">
 							<svg class='loading-icon' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24" id="Timer-Zero--Streamline-Sharp">
 								<desc>Timer Zero Streamline Icon: https://streamlinehq.com</desc>
