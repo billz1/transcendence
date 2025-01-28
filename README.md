@@ -5,20 +5,30 @@ sudo lsof -i :5432
 sudo kill <ID>
 
 MODULES
-*Django Backend
-*PostgreSQL Database
+*Django Backend +1
+*PostgreSQL Database + 1/2
+*user management + 1
+*multiplayer(2+) + 1
+*second game + 1
+*game customization + 1/2
+*game/user stats +1/2
+*3D threeJS + 1
+*AI + 1
+*responsive + 1/2
+*browser compatibility + 1/2
+*multi language + 1/2
+*
 *Docker/makefile
-*Frontend = Vanilla js / bootsrap / custom css
+*Frontend = Vanilla js / bootsrap + 1/2
 *Responsive
 *Transklation
 *Authentication System: User registration, login, profile management, and game history tracking
 *Pong Game:
-  -1v1 Mode: Compete with friends or against an AI.
+  -1v1 Mode: Compete pvp or against an AI.
 
-  -Tournaments: Create tournaments to play with friends.
+  -Tournaments: Create tournaments to play more players.
 
-  -3D Graphics: Enhanced visuals powered by Three.js for a modern gaming feel.
 *2-Player Pac-Man Game:
-  -Character Selection: Choose from different characters with unique abilities.
 
-  -Multiple Maps: Navigate various challenging maps.
+
+  -Multiple Maps
