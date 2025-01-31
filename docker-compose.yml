@@ -11,7 +11,7 @@ services:
       context: nginx
       dockerfile: Dockerfile
     ports:
-      - "443:443"
+      - "8443:443"
     volumes:
       - ./frontend:/usr/share/nginx/html
       - media_volume:/usr/share/nginx/html/media

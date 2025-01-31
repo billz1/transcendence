@@ -359,7 +359,7 @@ export class Pad {
 
 	AiPredictPaddle() {
 		const currentTime = Date.now();
-		// Checks the image once per second 
+		// Checks once per second 
 		if (currentTime - this.lastAIUpdate >= this.refresh_rate) {
 			this.lastAIUpdate = currentTime;
 			if (this.ball && this.ball.dx > 0) {
