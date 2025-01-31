@@ -11,9 +11,12 @@ if not SECRET_KEY:
     print("WARNING: DJANGO_SECRET_KEY is not set in the environment variables, a random key is being used. This is not safe for production use.")
     SECRET_KEY = get_random_secret_key()
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+SECURE_HSTS_SECONDS = 3600
+SECURE_SSL_REDIRECT = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
@@ -32,6 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'user_management',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -97,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 
-LANGUAGE_CODE = 'fr-FR'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 

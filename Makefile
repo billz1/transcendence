@@ -6,7 +6,7 @@ all: up
 
 # Build the docker images and the containers and start them
 up:
-	@docker compose -f ${COMPOSE_FILE_PATH} -p ${PROJECT_NAME} up -d --build
+	@docker compose -f ${COMPOSE_FILE_PATH} -p ${PROJECT_NAME} up --build
 
 # Stop the containers and remove them
 down:

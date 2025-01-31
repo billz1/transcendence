@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { setupScene } from './setupScene.js';
-import { loadModels, loadFonts } from './setupAsset.js';
+import { loadFonts, setupGameObjects } from './setupAsset.js';  // Remove loadModels from import
 import { setupBallMovement } from './ballMove.js';
 import { setupLighting } from './setupLight.js';
 import { createTextGeometry } from './textGeometry.js';
@@ -10,10 +10,27 @@ import { updateTextForElem } from "../../../utils/languages.js";
 
 export let eventListeners = { }
 
-export class pongThree {
-    constructor () {
+export class pongThree {  // Changed from PongGame to pongThree
+    constructor() {
         this.canvasRef = document.getElementById('canvas');
-		this.startButton= document.getElementById('btnStart');
+        this.setup();
+        this.bindEvents();
+    }
+
+    setup() {
+        const { scene, camera, renderer, controls } = setupScene(this.canvasRef);
+        this.scene = scene;
+        this.camera = camera;
+        this.renderer = renderer;
+        this.controls = controls;
+
+        setupLighting(this.scene);
+        this.gameObjects = setupGameObjects(this.scene); // Store gameObjects
+        this.objects = this.gameObjects; // Make objects available for other methods
+    }
+
+    bindEvents() {
+        this.startButton= document.getElementById('btnStart');
 		this.leftPaddleNameLabel = document.getElementById('leftPaddleName');
 		this.rightPaddleNameLabel = document.getElementById('rightPaddleName');
 		this.objectiveLabel = document.getElementById('objectiveLabel');
@@ -31,7 +48,6 @@ export class pongThree {
 
         this.scoreLeftValue = 0;
         this.scoreRightValue = 0;
-		this.controller = setupScene(this.canvasRef);
         this.objects;
         this.scores;
         this.gameStop = false;
@@ -47,16 +63,53 @@ export class pongThree {
 		this.rightPaddleNameLabel.textContent = this.usernames.p2;
 
 		const keybindsString = localStorage.getItem('pongKeybinds');
-		this.keybinds = keybindsString ? JSON.parse(keybindsString) : {
-			lUp : 'KeyW', lDown : 'KeyS', lMini: 'KeyE',
-			rUp : 'ArrowUp', rDown : 'ArrowDown', rMini: 'ArrowRight'
-		};
-		this.keys = {
-			[this.keybinds.rUp]: false,
-			[this.keybinds.rDown]: false,
-			[this.keybinds.lUp]: false,
-			[this.keybinds.lDown]: false
-		};
+        // Debug the actual key codes
+        // console.log('Keybinds before:', this.keybinds);
+        this.keybinds = keybindsString ? JSON.parse(keybindsString) : {
+            lUp: 'KeyW',
+            lDown: 'KeyS',
+            lForward: 'KeyD',
+            lBackward: 'KeyA',
+            rUp: 'ArrowUp',
+            rDown: 'ArrowDown',
+            rForward: 'ArrowRight',
+            rBackward: 'ArrowLeft'
+        };
+        // console.log('Keybinds after:', this.keybinds);
+        
+        // Define valid game keys
+        this.validGameKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+        
+        // Create mapping between key codes and actions
+        this.keybinds = {
+            lUp: 'KeyW',
+            lDown: 'KeyS',
+            lBackward: 'KeyA',    // Changed order to match logical direction
+            lForward: 'KeyD',     // Changed order to match logical direction
+            rUp: 'ArrowUp',
+            rDown: 'ArrowDown',
+            rBackward: 'ArrowLeft',  // Changed order to match logical direction
+            rForward: 'ArrowRight'   // Changed order to match logical direction
+        };
+        
+        // Create reverse mapping for easier lookup
+        this.keyToAction = {};
+        Object.entries(this.keybinds).forEach(([action, key]) => {
+            this.keyToAction[key] = action;
+            // console.log(`Mapping ${key} to ${action}`); // Debug mapping
+        });
+
+        // Initialize key states
+        this.keyStates = {
+            lUp: false,
+            lDown: false,
+            lForward: false,
+            lBackward: false,
+            rUp: false,
+            rDown: false,
+            rForward: false,
+            rBackward: false
+        };
 
 		const objectiveString = localStorage.getItem('pongObjective');
 		this.objective = objectiveString ? JSON.parse(objectiveString) : 3;
@@ -84,11 +137,14 @@ export class pongThree {
 	}
 
     async loadObjects() {
-        this.objects = await loadModels(this.controller.scene);
-        this.scores = await loadFonts(this.controller.scene);
-        this.moveBall = setupBallMovement(this.objects.ball, this.objects.paddleLeft, this.objects.paddleRight, this.updateScore.bind(this));
-
-		setupLighting(this.controller.scene);
+        this.scores = await loadFonts(this.scene);
+        this.moveBall = setupBallMovement(
+            this.gameObjects.ball, 
+            this.gameObjects.paddleLeft, 
+            this.gameObjects.paddleRight, 
+            this.gameObjects.dimensions,
+            (side) => this.updateScore(side)
+        );
     }
 
     updateScore(side) {
@@ -115,16 +171,31 @@ export class pongThree {
     }
 
 	movePaddles() {
-		const paddleSpeed = 0.1;
-		const zBound = 8.5 - 2.5;
+		const paddleSpeed = 0.05;
+        const yBound = 1.5;
+        const zBound = 4;
 
-		if (this.keys[this.keybinds.rUp]) this.objects.paddleRight.position.z -= paddleSpeed;
-		if (this.keys[this.keybinds.rDown]) this.objects.paddleRight.position.z += paddleSpeed;
-		if (this.keys[this.keybinds.lUp]) this.objects.paddleLeft.position.z -= paddleSpeed;
-		if (this.keys[this.keybinds.lDown]) this.objects.paddleLeft.position.z += paddleSpeed;
+        // Left paddle movement using keyStates instead of keys
+        if (this.keyStates.lUp) this.objects.paddleLeft.position.y += paddleSpeed;
+        if (this.keyStates.lDown) this.objects.paddleLeft.position.y -= paddleSpeed;
+        if (this.keyStates.lForward) this.objects.paddleLeft.position.z += paddleSpeed;
+        if (this.keyStates.lBackward) this.objects.paddleLeft.position.z -= paddleSpeed;
 
-		this.objects.paddleLeft.position.z = Math.max(-zBound, Math.min(zBound, this.objects.paddleLeft.position.z));
-		this.objects.paddleRight.position.z = Math.max(-zBound, Math.min(zBound, this.objects.paddleRight.position.z));
+        // Right paddle movement
+        if (this.keyStates.rUp) this.objects.paddleRight.position.y += paddleSpeed;
+        if (this.keyStates.rDown) this.objects.paddleRight.position.y -= paddleSpeed;
+        if (this.keyStates.rForward) this.objects.paddleRight.position.z += paddleSpeed;
+        if (this.keyStates.rBackward) this.objects.paddleRight.position.z -= paddleSpeed;
+
+        // Constrain paddle positions within bounds
+        this.objects.paddleLeft.position.y = Math.max(-yBound, Math.min(yBound, this.objects.paddleLeft.position.y));
+        this.objects.paddleRight.position.y = Math.max(-yBound, Math.min(yBound, this.objects.paddleRight.position.y));
+        this.objects.paddleLeft.position.z = Math.max(-zBound, Math.min(zBound, this.objects.paddleLeft.position.z));
+        this.objects.paddleRight.position.z = Math.max(-zBound, Math.min(zBound, this.objects.paddleRight.position.z));
+
+        // Keep paddles at their fixed x positions
+        this.objects.paddleLeft.position.x = -this.gameObjects.dimensions.x_plane;
+        this.objects.paddleRight.position.x = this.gameObjects.dimensions.x_plane;
 	}
 
 	endGame(winner) {
@@ -147,15 +218,15 @@ export class pongThree {
 		this.startButton.style.display = "block";
 		this.gameStop = false;
 
-		this.objects.paddleLeft.position.z = 0;
-		this.objects.paddleRight.position.z = 0;
+		this.objects.paddleLeft.position.set(-this.gameObjects.dimensions.x_plane, 0, 0);
+        this.objects.paddleRight.position.set(this.gameObjects.dimensions.x_plane, 0, 0);
 
 		this.scoreLeftValue = 0;
 		this.scoreRightValue = 0;
 		this.updateTextGeometry(this.scores.scoreLeft, this.scoreLeftValue);
 		this.updateTextGeometry(this.scores.scoreRight, this.scoreRightValue);
 
-		this.controller.renderer.clear();
+		this.renderer.clear();
 	}
 
     startGameLoop() {
@@ -178,12 +249,14 @@ export class pongThree {
     }
 
     animate() {
-        if (!this.gameStop)
+        if (!this.gameStop) {
             requestAnimationFrame(this.animate.bind(this));
-       
-        // controls.update();
-        this.controller.renderer.render(this.controller.scene, this.controller.camera);
-        this.controller.composer.render();
+            
+            if (this.controls) this.controls.update();
+            if (this.renderer && this.scene && this.camera) {
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
     }
 
 	pauseGame() {
@@ -237,20 +310,37 @@ export class pongThree {
 	// HANDLERS
 
 	keyDownHandler(event) {
-		if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(event.code) > -1) {
-			event.preventDefault();
-		}
-		if (this.gameStart) {
-			if (event.code == 'Escape'){
-				this.pauseGame();
-			}
-			this.keys[event.code] = true;
-		}		
-	}
+        // Prevent default for all game keys
+        if (this.validGameKeys.includes(event.code)) {
+            event.preventDefault();
+            console.log('Preventing default for:', event.code); // Debug prevention
+        }
+
+        if (this.gameStart) {
+            if (event.code === 'Escape') {
+                this.pauseGame();
+            }
+            const action = this.keyToAction[event.code];
+            if (action) {
+                // console.log('Key pressed:', event.code, 'maps to action:', action); // Debug mapping
+                if (!this.keyStates[action]) {
+                    this.keyStates[action] = true;
+                    // console.log('Key state updated:', this.keyStates); // Debug state
+                }
+            }
+        }       
+    }
 
 	keyUpHandler(event) {
 		if (this.gameStart) {
-			this.keys[event.code] = false;
-		}
+            const action = this.keyToAction[event.code];
+            if (action) {
+                // console.log('Key released:', event.code, 'maps to action:', action); // Debug mapping
+                if (this.keyStates[action]) {
+                    this.keyStates[action] = false;
+                    // console.log('Key state updated:', this.keyStates); // Debug state
+                }
+            }
+        }
 	}
 }

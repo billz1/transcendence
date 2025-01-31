@@ -1,44 +1,84 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-import { BloomPass } from 'three/addons/postprocessing/BloomPass.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { Reflector } from 'three/addons/objects/Reflector.js';
 
+export function setupGameObjects(scene) {
+    const x_plane = 6, y_plane = 5, z_plane = 6;
+    const x_cube = 0.1, y_cube = 1, z_cube = 2;
+    const ball_radius = 0.25;
 
-export async function loadModels(scene) {
-    const loader = new GLTFLoader();
-    
-    return new Promise((resolve, reject) => {
-        loader.load('/static/assets/pong/scene.gltf', (gltf) => {
-            scene.add(gltf.scene);
-
-            const ball = gltf.scene.getObjectByName('Ball');
-            const paddleLeft = gltf.scene.getObjectByName('PaddleLeft');
-            const paddleRight = gltf.scene.getObjectByName('PaddleRight');
-
-			const plane = gltf.scene.getObjectByName('Plane');
-            if (plane) {
-				//plane.scale.set(100, 100, 100);
-                plane.material.transparent = true;
-                plane.material.opacity = 0.3;
-
- //               const planeGeometry = plane.geometry;
-//				const parent = plane.parent;
-				//parent.remove(plane);
-
-            } else {
-                console.error('Plane not found in the loaded GLTF scene.');
-            }
-            resolve({ ball, paddleLeft, paddleRight });
-        }, undefined, (error) => {
-            reject(error);
-        });
+    // Field setup
+    const fieldGeometry = new THREE.BoxGeometry(x_plane * 2, y_plane, z_plane * 2);
+    const fieldMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x2222ff, 
+        side: THREE.DoubleSide, 
+        transparent: true, 
+        opacity: 0.1 
     });
+    const field = new THREE.Mesh(fieldGeometry, fieldMaterial);
+    scene.add(field);
+
+    // Middle line setup
+    const middleLineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+    const middleLineGeometry = new THREE.BufferGeometry();
+    const points = [
+        new THREE.Vector3(0, y_plane/2, z_plane),
+        new THREE.Vector3(0, -y_plane/2, z_plane),
+        new THREE.Vector3(0, -y_plane/2, -z_plane),
+        new THREE.Vector3(0, y_plane/2, -z_plane),
+        new THREE.Vector3(0, y_plane/2, z_plane)
+    ];
+    middleLineGeometry.setFromPoints(points);
+    const middleLine = new THREE.Line(middleLineGeometry, middleLineMaterial);
+    scene.add(middleLine);
+
+    // Players setup
+    const paddleGeometry = new THREE.BoxGeometry(x_cube, y_cube, z_cube);
+    const paddleLeft = new THREE.Mesh(
+        paddleGeometry,
+        new THREE.MeshPhongMaterial({
+            color: 0x005000,
+            transparent: true, 
+            opacity: 0.8
+        })
+    );
+    paddleLeft.position.set(-x_plane, 0, 0);
+    
+    const paddleRight = new THREE.Mesh(
+        paddleGeometry,
+        new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            transparent: true, 
+            opacity: 0.8
+        })
+    );
+    paddleRight.position.set(x_plane, 0, 0);
+
+    // Ball setup
+    const ball = new THREE.Mesh(
+        new THREE.SphereGeometry(ball_radius, 32, 32),
+        new THREE.MeshPhongMaterial({ 
+            color: 0xFF8C00,
+            emissive: 0xFF8C00,      // Same color as base for full glow
+            emissiveIntensity: 0.8,   // Intensity of the glow
+            shininess: 50             // Makes it more reflective
+        })
+    );
+
+    scene.add(paddleLeft);
+    scene.add(paddleRight);
+    scene.add(ball);
+
+    return { 
+        field, 
+        ball, 
+        paddleLeft, 
+        paddleRight, 
+        dimensions: { x_plane, y_plane, z_plane, x_cube, y_cube, z_cube, ball_radius } 
+    };
 }
 
+// Keep the loadFonts function as is
 export async function loadFonts(scene) {
     const fontLoader = new FontLoader();
 
