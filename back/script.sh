@@ -11,5 +11,5 @@ python transcendence/manage.py makemigrations
 python transcendence/manage.py migrate
 
 echo "Starting server..."
-python transcendence/manage.py runserver 0.0.0.0:8000
+#python transcendence/manage.py runserver 0.0.0.0:8000
 daphne -b 0.0.0.0 -p 8000 transcendence.asgi:application

@@ -1,4 +1,4 @@
-// Helper function to format the date
+// function to format the date
 export const formatDate = (dateString) => {
 	const date = new Date(dateString);
 	const year = date.getFullYear();
@@ -10,7 +10,7 @@ export const formatDate = (dateString) => {
 	// Return the formatted date as 'YYYY-MM-DD HH:mm'
 	return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
-// Helper function to format the seconds
+// function to format the seconds
 // Ex: 3600 seconds -> 01:00:00
 export const formatSeconds = (seconds) => {
 	const date = new Date(null);

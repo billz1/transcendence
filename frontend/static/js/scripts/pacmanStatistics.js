@@ -62,7 +62,7 @@ export async function pacmanStatistics () {
 				return;
 			}
 
-			// Map through the matches and create a tr filled with td for each match
+			// Map through the matches and create a table row(tr) filled with table column(td) for each match
 			matches.forEach(match => {
 				const tr = document.createElement('tr');
 				columns.forEach(column => {

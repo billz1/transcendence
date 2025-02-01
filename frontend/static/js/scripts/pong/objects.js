@@ -162,7 +162,7 @@ export class Timer {
 		else
 			updateTextForElem(this.rMinimizeLabel, "ready");
 	}
-
+	//minimize powerup
 	startMinimizeCD(placement) {
 		if (placement == "left") {
 			if (this.leftMinimizeCD > 0)
@@ -356,7 +356,7 @@ export class Pad {
             this.useMinimize();
 		}
 	}
-
+	//AI logic
 	AiPredictPaddle() {
 		const currentTime = Date.now();
 		// Checks once per second 
@@ -395,19 +395,22 @@ predictBallPosition() {
     if (!this.ball) {
         return null;
     }
+	// Initialize future position variables with the balls current position
     let futureX = this.ball.x;
     let futureY = this.ball.y;
+	// Initialize velocity variables with the balls current movement direction
     let velocityX = this.ball.dx;
     let velocityY = this.ball.dy;
+	//get the x position of the paddle
 	const paddleX = this.x;
-
+	// based on difficulty
     if (this.pG.aiDifficulty === 'easy') {
-        const framesAhead = 60;
-
+        const framesAhead = 60; //
+		//simulate ball movement for next frame
         for (let i = 0; i < framesAhead; i++) {
             futureX += velocityX;
             futureY += velocityY;
-
+			//return predicted y position if the ball reaches pads x position
             if (futureX >= paddleX) {
                 return { y: futureY };
             }
@@ -418,9 +421,11 @@ predictBallPosition() {
         }
 		return { y: futureY };
     } else {
+		//AI continuously simulates until the ball reaches the paddle (HARD)
         while (futureX < paddleX) {
             futureX += velocityX;
             futureY += velocityY;
+			//
             if (futureY + this.ball.size / 2 >= this.pG.cvs.height || futureY - this.ball.size / 2 <= 0) {
                 velocityY *= -1;
             }

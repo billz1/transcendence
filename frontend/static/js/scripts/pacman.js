@@ -196,6 +196,7 @@ class PacmanGame {
 
 	async sendPacmanData(winner) {
 		const date = new Date();
+		// Prepare match data to be sent to the server
 		let matchData = {
 			"pacman_player": this.usernames.pacman,
 			"pacman_character": this.pacmanSkin,
@@ -208,6 +209,7 @@ class PacmanGame {
 			"match_date": date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(),
 			"user": localStorage.getItem('user_id')
 		};
+		
 		let response = await fetch(`${BASE_URL}/api/record_pacman_match`, {
 			method: 'POST',
 			headers: {
@@ -225,6 +227,7 @@ class PacmanGame {
 			matchData = {
 				"max_endless_score": this.pacman.score
 			};
+			// Send a PUT request to update the highest score
 			response = await fetch(`${BASE_URL}/api/pacman_endless_update`, {
 				method: 'PUT',
 				headers: {
@@ -341,7 +344,7 @@ class PacmanGame {
 		}
 		return tmp;
 	}
-
+	// Define a mapping skin to the corresponding class constructors
 	createCharacter(type, x, y) {
 		const pacmanSkins = {
 			"pac-man": Pacman,
