@@ -11,10 +11,11 @@ services:
       context: nginx
       dockerfile: Dockerfile
     ports:
-      - "8443:443"
+      - "8443:8443"
     volumes:
       - ./frontend:/usr/share/nginx/html
       - media_volume:/usr/share/nginx/html/media
+      - ./back/transcendence/media:/usr/share/nginx/html/media
     depends_on:
       - web
     networks:

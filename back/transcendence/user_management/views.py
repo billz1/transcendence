@@ -94,6 +94,7 @@ class UserAvatar(views.APIView):
     def get(self, request):
         user = request.user
         if user.profile_picture:
+            # print('trying to send picture')
             return FileResponse(open(user.profile_picture.path, 'rb'), content_type='image/jpeg')
         else:
             return Response({"error": "No profile photo found"}, status=status.HTTP_404_NOT_FOUND)
@@ -156,6 +157,7 @@ class UsersList(views.APIView):
                     'profile_picture_url': serializer.data['profile_picture_url'],
                     'online_status': serializer.data['online_status']
                 }
+                print(users_data)
                 users_data.append(user_data)
             return Response(users_data, status=status.HTTP_200_OK)
         except Exception as e:

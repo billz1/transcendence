@@ -32,7 +32,3 @@ MODULES
 
 
   -Multiple Maps
-
-extending django.contrib.auth.models.AbstractUser, passwords are automatically hashed when stored in the database.
-
-prevent server overload with robot.txt

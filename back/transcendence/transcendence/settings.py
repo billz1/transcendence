@@ -1,4 +1,3 @@
-
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import os
@@ -11,15 +10,19 @@ if not SECRET_KEY:
     print("WARNING: DJANGO_SECRET_KEY is not set in the environment variables, a random key is being used. This is not safe for production use.")
     SECRET_KEY = get_random_secret_key()
 
-DEBUG = False   
+# Change DEBUG to True for development
+DEBUG = False
 
+# Modify ALLOWED_HOSTS if needed
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+# Comment out SSL settings during development
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+SECURE_HSTS_SECONDS = 3600
 
 # Application definition
 
@@ -33,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'user_management',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -98,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 
-LANGUAGE_CODE = 'en-US'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -110,8 +114,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Add this to ensure consistent media file paths
+MEDIA_DIRS = [
+    os.path.join(BASE_DIR, 'media/profile_pictures'),
+]
+
+# Create necessary directories
+for dir_path in MEDIA_DIRS:
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
 
 # Default primary key field type
 

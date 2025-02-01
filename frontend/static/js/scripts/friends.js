@@ -79,11 +79,11 @@ export async function friends () {
 					userDiv.className = 'd-flex align-items-center';
 
 					// Create the profile picture img element
-					const profilePic = document.createElement('img');
-					profilePic.src = user.profile_picture_url;
-					profilePic.alt = 'profile picture';
-					profilePic.className = 'profile-pic-list';
-					profilePic.id = 'avatar';
+					// const profilePic = document.createElement('img');
+					// profilePic.src = user.profile_picture_url;
+					// profilePic.alt = 'profile picture';
+					// profilePic.className = 'profile-pic-list';
+					// profilePic.id = 'avatar';
 
 					// Create the user name paragraph element
 					const userName = document.createElement('p');
@@ -91,7 +91,7 @@ export async function friends () {
 					userName.textContent = user.username;
 
 					// Append the profile picture and username
-					userDiv.appendChild(profilePic);
+					// userDiv.appendChild(profilePic);
 					userDiv.appendChild(userName);	
 
 					// Create the plus icon img element
@@ -173,17 +173,17 @@ export async function friends () {
 				friendDiv.className = 'd-flex align-items-center';
 
 				// Create the profile picture img element
-				const profilePic = document.createElement('img');
-				profilePic.src = friend.profile_picture_url;
-				profilePic.alt = 'profile picture';
-				profilePic.className = 'profile-pic-list';
+				// const profilePic = document.createElement('img');
+				// profilePic.src = friend.profile_picture_url;
+				// profilePic.alt = 'profile picture';
+				// profilePic.className = 'profile-pic-list';
 
 				// Create the online status
 				const onlineStatus = document.createElement('img');
 				const onlineBool = friend.online_status;
 				onlineStatus.src = onlineBool ? 'static/assets/UI/icons/connected.svg' : 'static/assets/UI/icons/disconnected.svg';
 				onlineStatus.alt = 'online status';
-				onlineStatus.className = 'online-icon-list ms-2';
+				onlineStatus.className = 'online-icon-list ms-0';
 
 				// Create the friend name paragraph element
 				const userName = document.createElement('p');
@@ -191,7 +191,7 @@ export async function friends () {
 				userName.textContent = friend.username;
 
 				// Append everything to the parent container
-				friendDiv.appendChild(profilePic);
+				// friendDiv.appendChild(profilePic);
 				friendDiv.appendChild(userName);
 				friendDiv.appendChild(onlineStatus);
 

@@ -1,15 +1,17 @@
 import * as THREE from 'three';
 
 export function setupLighting(scene) {
-    const ambientLight = new THREE.AmbientLight(0x404040, 2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-	const light1 = new THREE.SpotLight( 0xffffff, 150, 0, 1.75, 0.5 );
-	light1.castShadow = true;
-	light1.position.set(15, 20, 0);
-	scene.add( light1 );
-	const light2 = new THREE.SpotLight( 0xffffff, 150, 0, 1.5, 0.5 );
-	light2.castShadow = true;
-	light2.position.set(-15, 20, 0);
-	scene.add( light2 );
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight.position.set(0, 10, 10);
+    spotLight.angle = Math.PI / 4;
+    spotLight.penumbra = 0.1;
+    spotLight.decay = 2;
+    spotLight.distance = 200;
+    scene.add(spotLight);
+
+    const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+    scene.add(hemisphereLight);
 }
